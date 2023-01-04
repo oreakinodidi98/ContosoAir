@@ -2,47 +2,48 @@
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
+# this is a release pipline , to release output generated from build pieline
 
 trigger:
-- none
-resources:
+- none # set as none to revent a release from been set by change in repository 
+resources: # resource section to refrence build pipline created previously
   pipelines:
   - pipeline: buildContosoAir # identifier for the resource used in pipeline resource variables
     source: oreakinodidi98.ContosoAir # name of the pipeline that produces the artifact
     trigger:
       branches:
         include:
-          - master
+          - master # pipeline will automatically start when the build pipline completes
 
 pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: DownloadPipelineArtifact@2
+- task: DownloadPipelineArtifact@2 # first task to set up Azure deployment enviroment if it doesnt exist
   inputs:
     buildType: 'specific'
     project: '2a345afe-b76c-4df0-9d7b-a6434b2ca05b'
     definition: '3'
     buildVersionToDownload: 'latest'
     targetPath: '$(Pipeline.Workspace)'
-- task: AzureResourceManagerTemplateDeployment@3
+- task: AzureResourceManagerTemplateDeployment@3 # next task is to deploy a set of azure resources
   inputs:
     deploymentScope: 'Resource Group'
     azureResourceManagerConnection: 'Azure Connection'
     subscriptionId: 'cb5b077c-3ef5-4b2e-83e5-490cc5ca0e19'
     action: 'Create Or Update Resource Group'
-    resourceGroupName: 'github-integration-rg'
+    resourceGroupName: '$(resourcegroup)'
     location: 'East US'
     templateLocation: 'Linked artifact'
     csmFile: '$(Pipeline.Workspace)/drop/Templates/azuredeploy.json'
     csmParametersFile: '$(Pipeline.Workspace)/drop/Templates/azuredeploy.parameters.json'
     overrideParameters: '-p_environment $(web_environment) -p_site_prefix $(web_prefix) -p_site_web_name $(web_site)'
     deploymentMode: 'Incremental'
-- task: AzureRmWebAppDeployment@4
+- task: AzureRmWebAppDeployment@4 # task to deploy the app service 
   inputs:
     ConnectionType: 'AzureRM'
-    azureSubscription: 'Azure Connection'
+    azureSubscription: 'Azure Connection' # same subscribtion as earlier
     appType: 'webApp'
-    WebAppName: '$(web_prefix)-$(web_site)-$(web_environment'
+    WebAppName: '$(web_prefix)-$(web_site)-$(web_environment)' #web variable name is the name of the app service i want to deploy to 
     packageForLinux: '$(Pipeline.Workspace)/*/.zip'
 
