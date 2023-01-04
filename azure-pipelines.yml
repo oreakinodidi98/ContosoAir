@@ -1,7 +1,7 @@
 pool:
   vmImage: 'ubuntu-18.04'
 trigger:
-  - master
+  - none
 steps:
   - task: CopyFiles@2
     displayName: 'Copy Files to:
