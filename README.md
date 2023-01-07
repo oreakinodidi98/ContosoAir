@@ -1,6 +1,6 @@
 [![Build Status](https://dev.azure.com/learningazuredevops211/GitHub%20Integration/_apis/build/status/oreakinodidi98.ContosoAir?branchName=master)](https://dev.azure.com/learningazuredevops211/GitHub%20Integration/_build/latest?definitionId=3&branchName=master)
 # This project is retired, archived, and no longer supported. You are welcome to continue to use and fork the repository.
-
+[![Board Status](https://dev.azure.com/learningazuredevops211/2a345afe-b76c-4df0-9d7b-a6434b2ca05b/3bd21460-7fe6-4ff1-b021-4251b5f1d9fc/_apis/work/boardbadge/5976c006-8b23-472b-8bc6-f7d1530c5af6?columnOptions=1)](https://dev.azure.com/learningazuredevops211/2a345afe-b76c-4df0-9d7b-a6434b2ca05b/_boards/board/t/3bd21460-7fe6-4ff1-b021-4251b5f1d9fc/Microsoft.RequirementCategory/)
 
 # Microsoft.Github CI Demo
 
